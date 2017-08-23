@@ -14,7 +14,7 @@ global with sharing class ContactController {
 			contactId = c.Id;
 		}
 		catch (DmlException e) {
-			ExceptionMessage(e.getMessage());
+			ContactController.ExceptionMessage(e.getMessage());
 		}
 		
 		return contactId;
@@ -33,14 +33,14 @@ global with sharing class ContactController {
 			editOK = true;
 		}
 		catch (DmlException e) {
-			ExceptionMessage(e.getMessage());
+			ContactController.ExceptionMessage(e.getMessage());
 		}
         
         return editOK;
     }
 
 	global static Boolean deleteContact(String contactId){
-		return deleteUser();
+		return ContactController.deleteUser();
 	}
 
 	@HttpDelete
@@ -53,7 +53,7 @@ global with sharing class ContactController {
 			deleteOK = true;
 		}
 		catch (DmlException e) {
-			ExceptionMessage(e.getMessage());
+			ContactController.ExceptionMessage(e.getMessage());
 		}
         
 		return deleteOK;
@@ -67,24 +67,35 @@ global with sharing class ContactController {
 			contacts = [SELECT Id FROM Contact];
 		}
 		catch (DmlException e) {
-			ExceptionMessage(e.getMessage());
+			ContactController.ExceptionMessage(e.getMessage());
 		}
 
 		return contacts;
 	}
 
-	/* public static Contact getUserByUsername(String username){
+	public static Contact getUserByUsername(String username){
 		Contact c = null;
-
+		
 		try{
-			c = [select Username__c, Auth_Token__c from Contact where Username__c = :username];
+			List<Contact> contacts = ContactController.listUsers();
+			Integer i = 0;
+			Integer length = contacts.size();
+
+			while(i<length && c == null){
+
+				if(contacts[i].Username__c.equals(username)){
+					c = contacts[i];
+				}
+				
+				i++;
+			}
 		}
 		catch(DmlException e){
-			ExceptionMessage(e.getMessage());
+			ContactController.ExceptionMessage(e.getMessage());
 		}
 
 		return c;
-	} */
+	}
 
 	/* @HttpGet
 	global static Contact getUserById(){
