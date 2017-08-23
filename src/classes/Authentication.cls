@@ -1,12 +1,12 @@
 public class Authentication {
 
-    public String authenticateUser (String username, String password){
+    public static String authenticateUser (String username, String password){
         String authToken = null;
 
-        if(username.length() > 0 && password.length() > 0){
-            String enteredPassHash = this.encryptPassword(password);
+        if(username != null && password != null){
+            String enteredPassHash = Authentication.encryptPassword(password);
 
-            if(this.validateToken(username, enteredPassHash)){
+            if(Authentication.validateToken(username, enteredPassHash)){
                 authToken = enteredPassHash;
             }
         }
@@ -14,7 +14,7 @@ public class Authentication {
         return authToken;
     }
 
-    private Boolean validateToken (String username, String token){
+    private static Boolean validateToken (String username, String token){
         Boolean tokenOK = false;
         Contact c = ContactController.getUserByUsername(username);
 
@@ -25,7 +25,7 @@ public class Authentication {
         return tokenOK;
     }
 
-    private String encryptPassword (String password){
+    private static String encryptPassword (String password){
         String authToken = null;
 
         if(password.length() > 0){
