@@ -14,7 +14,7 @@ public class Authentication {
         return authToken;
     }
 
-    private static Boolean validateToken (String username, String token){
+    public static Boolean validateToken (String username, String token){
         Boolean tokenOK = false;
         Contact c = ContactController.getUserByUsername(username);
 

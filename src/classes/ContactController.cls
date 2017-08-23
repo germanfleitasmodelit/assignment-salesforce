@@ -40,6 +40,7 @@ global with sharing class ContactController {
     }
 
 	global static Boolean deleteContact(String contactId){
+		ContactController.contact.Id = contactId;
 		return ContactController.deleteUser();
 	}
 
@@ -48,7 +49,7 @@ global with sharing class ContactController {
 		Boolean deleteOK = false;
 
 		try{
-			contact = [SELECT Id FROM Contact WHERE Id = :contact.Id];
+			contact = [SELECT Id FROM Contact WHERE Id = :ContactController.contact.Id];
         	delete contact;
 			deleteOK = true;
 		}
