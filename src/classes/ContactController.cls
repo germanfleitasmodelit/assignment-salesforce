@@ -1,11 +1,7 @@
-@RestResource(urlMapping='/Contacts/*')
-global with sharing class ContactController {
-
-	public static Contact contact {get; set;}
+public class ContactController {
 	public ContactController() {}
 
-	@HttpPost
-    global static ID createContact (String firstName, String lastName) {
+	public static ID createContact (String firstName, String lastName) {
         Id contactId = null;
 		Contact c = new Contact(FirstName = firstName, LastName = lastName);
 
@@ -20,8 +16,7 @@ global with sharing class ContactController {
 		return contactId;
     }
 
-	@HttpPatch
-    global static Boolean editContact(Id contactId, String firstName, String lastName) {
+	public static Boolean editContact(Id contactId, String firstName, String lastName) {
 		Boolean editOK = false;
 
 		try{
@@ -39,18 +34,12 @@ global with sharing class ContactController {
         return editOK;
     }
 
-	global static Boolean deleteContact(String contactId){
-		ContactController.contact.Id = contactId;
-		return ContactController.deleteUser();
-	}
-
-	@HttpDelete
-    global static Boolean deleteUser() {
+	public static Boolean deleteContact(String contactId){
 		Boolean deleteOK = false;
 
 		try{
-			contact = [SELECT Id FROM Contact WHERE Id = :ContactController.contact.Id];
-        	delete contact;
+			Contact c = [SELECT Id FROM Contact WHERE Id = :contactId];
+        	delete c;
 			deleteOK = true;
 		}
 		catch (DmlException e) {
@@ -58,10 +47,9 @@ global with sharing class ContactController {
 		}
         
 		return deleteOK;
-    }
+	}
 
-	@HttpGet
-	global static List<Contact> listUsers(){
+	public static List<Contact> listUsers(){
 		List<Contact> contacts = null;
 
 		try{
@@ -97,18 +85,6 @@ global with sharing class ContactController {
 
 		return c;
 	}
-
-	/* @HttpGet
-	global static Contact getUserById(){
-		Contact c = null;
-
-		RestRequest request = RestContext.request;
-        String contactId = request.requestURI.substring(request.requestURI.lastIndexOf('/')+1);
-
-        c =  [SELECT Username__c,Auth_Token__c,Id FROM Contact WHERE Id = :contactId];
-
-		return c;
-	} */
 
 	private static void ExceptionMessage(String message){
 		System.debug('The following exception has occurred: ' + message);

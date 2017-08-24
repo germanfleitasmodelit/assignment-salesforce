@@ -1,8 +1,6 @@
 global with sharing class ContactControllerExtension {
 
-    public ContactControllerExtension(ContactController contactCtrl) {
-        /* this.mysObject = (sObject)stdController.getRecord(); */
-    }
+    public ContactControllerExtension(ContactController contactCtrl) {}
 
     @RemoteAction
     global static ID createContact (String username, String token, String firstName, String lastName){
