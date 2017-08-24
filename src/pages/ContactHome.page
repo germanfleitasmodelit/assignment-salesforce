@@ -1,0 +1,5 @@
+<apex:page controller="ContactController" extensions="ContactControllerExtension">
+	<div ng-app="contact-manager">
+        
+    </div>
+</apex:page>
