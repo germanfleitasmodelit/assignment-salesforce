@@ -1,7 +1,7 @@
-public class ContactController {
-	public ContactController() {}
+global class ContactController {
+	global ContactController() {}
 
-	public static ID createContact (String firstName, String lastName) {
+	global static ID createContact (String firstName, String lastName) {
         Id contactId = null;
 		Contact c = new Contact(FirstName = firstName, LastName = lastName);
 
@@ -16,7 +16,7 @@ public class ContactController {
 		return contactId;
     }
 
-	public static Boolean editContact(Id contactId, String firstName, String lastName) {
+	global static Boolean editContact(Id contactId, String firstName, String lastName) {
 		Boolean editOK = false;
 
 		try{
@@ -34,7 +34,7 @@ public class ContactController {
         return editOK;
     }
 
-	public static Boolean deleteContact(String contactId){
+	global static Boolean deleteContact(String contactId){
 		Boolean deleteOK = false;
 
 		try{
@@ -49,11 +49,11 @@ public class ContactController {
 		return deleteOK;
 	}
 
-	public static List<Contact> listUsers(){
+	global static List<Contact> listUsers(){
 		List<Contact> contacts = null;
 
 		try{
-			contacts = [SELECT Id FROM Contact];
+			contacts = [SELECT Id, gerdev__Username__c FROM Contact];
 		}
 		catch (DmlException e) {
 			ContactController.ExceptionMessage(e.getMessage());
@@ -62,7 +62,7 @@ public class ContactController {
 		return contacts;
 	}
 
-	public static Contact getUserByUsername(String username){
+	global static Contact getUserByUsername(String username){
 		Contact c = null;
 		
 		try{
@@ -72,7 +72,7 @@ public class ContactController {
 
 			while(i<length && c == null){
 
-				if(contacts[i].Username__c.equals(username)){
+				if(contacts[i].gerdev__Username__c.equals(username)){
 					c = contacts[i];
 				}
 				

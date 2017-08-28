@@ -19,7 +19,7 @@ public class Authentication {
         Contact c = ContactController.getUserByUsername(username);
 
         if(c != null){
-            tokenOK = c.Username__c.equals(username) && c.Auth_Token__c.equals(token);
+            tokenOK = c.gerdev__Username__c.equals(username) && c.gerdev__Auth_Token__c.equals(token);
         }
 
         return tokenOK;
