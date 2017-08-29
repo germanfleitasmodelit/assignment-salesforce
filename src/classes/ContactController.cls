@@ -53,7 +53,7 @@ global class ContactController {
 		List<Contact> contacts = null;
 
 		try{
-			contacts = [SELECT Id, gerdev__Username__c FROM Contact];
+			contacts = [SELECT Id, gerdev__Username__c, gerdev__Auth_Token__c, FirstName, LastName FROM Contact];
 		}
 		catch (DmlException e) {
 			ContactController.ExceptionMessage(e.getMessage());
@@ -69,15 +69,8 @@ global class ContactController {
 			List<Contact> contacts = ContactController.listUsers();
 			Integer i = 0;
 			Integer length = contacts.size();
-
-			while(i<length && c == null){
-
-				if(contacts[i].gerdev__Username__c.equals(username)){
-					c = contacts[i];
-				}
-				
-				i++;
-			}
+			System.debug(contacts);
+            c = [SELECT Id, gerdev__Username__c, gerdev__Auth_Token__c, FirstName, LastName FROM Contact WHERE gerdev__Username__c = :username];
 		}
 		catch(DmlException e){
 			ContactController.ExceptionMessage(e.getMessage());

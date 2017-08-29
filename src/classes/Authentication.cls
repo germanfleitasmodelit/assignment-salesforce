@@ -17,10 +17,11 @@ public class Authentication {
     public static Boolean validateToken (String username, String token){
         Boolean tokenOK = false;
         Contact c = ContactController.getUserByUsername(username);
-
+		System.debug(c.gerdev__Username__c);
         if(c != null){
             tokenOK = c.gerdev__Username__c.equals(username) && c.gerdev__Auth_Token__c.equals(token);
         }
+        System.debug(tokenOK);
 
         return tokenOK;
     }
