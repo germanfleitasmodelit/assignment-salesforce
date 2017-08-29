@@ -66,11 +66,36 @@ global class ContactController {
 		Contact c = null;
 		
 		try{
-			List<Contact> contacts = ContactController.listUsers();
+			/* List<Contact> contacts = ContactController.listUsers();
 			Integer i = 0;
-			Integer length = contacts.size();
-			System.debug(contacts);
+			Integer length = contacts.size(); */
             c = [SELECT Id, gerdev__Username__c, gerdev__Auth_Token__c, FirstName, LastName FROM Contact WHERE gerdev__Username__c = :username];
+		}
+		catch(DmlException e){
+			ContactController.ExceptionMessage(e.getMessage());
+		}
+
+		return c;
+	}
+
+	global static Contact getUserWithPassword(String username, String password){
+		Contact c = null;
+		
+		try{
+            c = [SELECT Id, gerdev__Username__c, gerdev__Password__c  
+				FROM Contact WHERE gerdev__Username__c = :username AND gerdev__Password__c = :password];
+		}
+		catch(DmlException e){
+			ContactController.ExceptionMessage(e.getMessage());
+		}
+
+		return c;
+	}
+
+	global static Contact saveGeneratedToken(Contact c, String token){
+		try{
+            c.gerdev__Auth_Token__c = token;
+			update c;
 		}
 		catch(DmlException e){
 			ContactController.ExceptionMessage(e.getMessage());

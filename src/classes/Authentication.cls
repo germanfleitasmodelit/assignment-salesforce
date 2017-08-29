@@ -4,10 +4,11 @@ public class Authentication {
         String authToken = null;
 
         if(username != null && password != null){
-            String enteredPassHash = Authentication.encryptPassword(password);
+            Contact c = ContactController.getUserWithPassword(username, password);
 
-            if(Authentication.validateToken(username, enteredPassHash)){
-                authToken = enteredPassHash;
+            if(c != null){
+                authToken = Authentication.encryptPassword(password);
+                ContactController.saveGeneratedToken(c, authToken);
             }
         }
 
@@ -30,7 +31,7 @@ public class Authentication {
         String authToken = null;
 
         if(password.length() > 0){
-            Blob targetBlob = Blob.valueOf(password);
+            Blob targetBlob = Blob.valueOf('1000' + String.valueOf(Datetime.now().formatGMT('yyyy-MM-dd HH:mm:ss.SSS')) + password);
             Blob hash = Crypto.generateDigest('MD5', targetBlob);
             authToken = EncodingUtil.base64Encode(hash);
         }
